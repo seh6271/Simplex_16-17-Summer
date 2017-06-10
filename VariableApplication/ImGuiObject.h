@@ -4,7 +4,7 @@ Date: 2017/05
 ----------------------------------------------*/
 #ifndef __IMGUIOBJECT_H_
 #define __IMGUIOBJECT_H_
-//USINGSIMPLEX;
+#define USINGSIMPLEX
 #ifdef USINGSIMPLEX
 //"Using namespace" to use all the classes in the dll
 #include "Simplex\SimplexApplication.h"

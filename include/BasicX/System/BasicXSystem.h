@@ -248,7 +248,7 @@ public:
 	ARGUMENTS:
 	OUTPUT:
 	*/
-	double LapClock(unsigned int a_nClock = 0);
+	double GetDeltaTime(unsigned int a_nClock = 0);
 
 	/*
 	USAGE: Adds a clock to the list and return said clock's index

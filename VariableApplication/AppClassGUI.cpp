@@ -59,7 +59,7 @@ void AppClass::NewFrame()
 			height > 0 ? ((float)m_viewport[3] / height) : 0);
 
 	// Setup time step
-	double dDelta = m_pSystem->LapClock(gui.m_nClock);
+	double dDelta = m_pSystem->GetDeltaTime(gui.m_nClock);
 	io.DeltaTime = static_cast<float>(dDelta);
 	gui.m_dTimeTotal += dDelta;
 

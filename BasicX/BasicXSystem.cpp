@@ -272,7 +272,7 @@ void BasicXSystem::StartClock(unsigned int a_nClock)
 		m_lClock.push_back(GetTickCount());
 	m_lClock[a_nClock] = GetTickCount();
 }
-double BasicXSystem::LapClock(unsigned int a_nClock)
+double BasicXSystem::GetDeltaTime(unsigned int a_nClock)
 {
 	while (m_lClock.size() < a_nClock + 1)
 		m_lClock.push_back(GetTickCount());
@@ -285,7 +285,7 @@ double BasicXSystem::LapClock(unsigned int a_nClock)
 uint BasicXSystem::GenClock(void)
 {
 	uint nSize = m_lClock.size();
-	LapClock(nSize);
+	GetDeltaTime(nSize);
 	return nSize;
 }
 bool BasicXSystem::CountDown(float a_fTime, bool a_bRepeat)
