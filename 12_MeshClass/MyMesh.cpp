@@ -12,7 +12,7 @@ void MyMesh::Init(void)
 void MyMesh::Release(void)
 {
 	m_pShaderMngr = nullptr;
-	
+
 	if (m_VBO > 0)
 		glDeleteBuffers(1, &m_VBO);
 
@@ -22,81 +22,6 @@ void MyMesh::Release(void)
 	m_lVertex.clear();
 	m_lVertexPos.clear();
 	m_lVertexCol.clear();
-}
-void MyMesh::CompleteMesh(vector3 a_v3Color)
-{
-	int nColorTotal = static_cast<int>(m_lVertexCol.size());
-	for (uint nColor = nColorTotal; nColor < m_uVertexCount; nColor++)
-		m_lVertexCol.push_back(a_v3Color);
-}
-void MyMesh::AddVertexPosition(vector3 input) { m_lVertexPos.push_back(input); m_uVertexCount++; }
-void MyMesh::AddVertexColor(vector3 input) { m_lVertexCol.push_back(input); }
-void MyMesh::AddTri(vector3 a_vBottomLeft, vector3 a_vBottomRight, vector3 a_vTopLeft)
-{
-	//C
-	//| \
-		//A--B
-//This will make the triang A->B->C 
-	AddVertexPosition(a_vBottomLeft);
-	AddVertexPosition(a_vBottomRight);
-	AddVertexPosition(a_vTopLeft);
-}
-void MyMesh::AddQuad(vector3 a_vBottomLeft, vector3 a_vBottomRight, vector3 a_vTopLeft, vector3 a_vTopRight)
-{
-	//C--D
-	//|  |
-	//A--B
-	//This will make the triang A->B->C and then the triang C->B->D
-	AddVertexPosition(a_vBottomLeft);
-	AddVertexPosition(a_vBottomRight);
-	AddVertexPosition(a_vTopLeft);
-
-	AddVertexPosition(a_vTopLeft);
-	AddVertexPosition(a_vBottomRight);
-	AddVertexPosition(a_vTopRight);
-}
-void MyMesh::GenerateCube(float a_fSize, vector3 a_v3Color)
-{
-	if (a_fSize < 0.01f)
-		a_fSize = 0.01f;
-
-	Release();
-	Init();
-
-	float fValue = 0.5f * a_fSize;
-	//3--2
-	//|  |
-	//0--1
-	vector3 point0(-fValue, -fValue, fValue); //0
-	vector3 point1(fValue, -fValue, fValue); //1
-	vector3 point2(fValue, fValue, fValue); //2
-	vector3 point3(-fValue, fValue, fValue); //3
-
-	vector3 point4(-fValue, -fValue, -fValue); //4
-	vector3 point5(fValue, -fValue, -fValue); //5
-	vector3 point6(fValue, fValue, -fValue); //6
-	vector3 point7(-fValue, fValue, -fValue); //7
-
-											  //F
-	AddQuad(point0, point1, point3, point2);
-
-	//B
-	AddQuad(point5, point4, point6, point7);
-
-	//L
-	AddQuad(point4, point0, point7, point3);
-
-	//R
-	AddQuad(point1, point5, point2, point6);
-
-	//U
-	AddQuad(point3, point2, point7, point6);
-
-	//D
-	AddQuad(point4, point5, point0, point1);
-
-	CompleteMesh(a_v3Color);
-	CompileOpenGL3X();
 }
 MyMesh::MyMesh()
 {
@@ -108,7 +33,7 @@ MyMesh::MyMesh(MyMesh& other)
 	m_bBinded = other.m_bBinded;
 
 	m_pShaderMngr = other.m_pShaderMngr;
-	
+
 	m_uVertexCount = other.m_uVertexCount;
 
 	m_VAO = other.m_VAO;
@@ -139,6 +64,27 @@ void MyMesh::Swap(MyMesh& other)
 
 	std::swap(m_pShaderMngr, other.m_pShaderMngr);
 }
+
+void MyMesh::CompleteMesh(vector3 a_v3Color)
+{
+	uint uColorCount = m_lVertexCol.size();
+	for (uint i = uColorCount; i < m_uVertexCount; ++i)
+	{
+		m_lVertexCol.push_back(a_v3Color);
+	}
+}
+
+void MyMesh::AddVertexPosition(vector3 a_v3Input)
+{
+	m_lVertexPos.push_back(a_v3Input);
+	m_uVertexCount = m_lVertexPos.size();
+}
+
+void MyMesh::AddVertexColor(vector3 a_v3Input)
+{
+	m_lVertexCol.push_back(a_v3Input);
+}
+
 void MyMesh::CompileOpenGL3X(void)
 {
 	if (m_bBinded)
@@ -174,26 +120,106 @@ void MyMesh::CompileOpenGL3X(void)
 	m_bBinded = true;
 
 	glBindVertexArray(0); // Unbind VAO
-
-	return;
 }
-void MyMesh::Render(matrix4 a_mProjection, matrix4 a_mView, matrix4 m_mModel)
+
+void MyMesh::Render(matrix4 a_mProjection, matrix4 a_mView, matrix4 a_mModel)
 {
 	// Use the buffer and shader
 	GLuint nShader = m_pShaderMngr->GetShaderID("Basic");
-	glUseProgram(nShader);
+	glUseProgram(nShader); 
 
+	//Bind the VAO of this object
 	glBindVertexArray(m_VAO);
 
 	// Get the GPU variables by their name and hook them to CPU variables
 	GLuint MVP = glGetUniformLocation(nShader, "MVP");
-	
+	GLuint wire = glGetUniformLocation(nShader, "wire");
+
 	//Final Projection of the Camera
-	matrix4 m4VP = a_mProjection * a_mView;
-	glUniformMatrix4fv(MVP, 1, GL_FALSE, glm::value_ptr(a_mProjection * a_mView * m_mModel));
+	matrix4 m4MVP = a_mProjection * a_mView * a_mModel;
+	glUniformMatrix4fv(MVP, 1, GL_FALSE, glm::value_ptr(m4MVP));
 	
+	//Solid
+	glUniform3f(wire, -1.0f, -1.0f, -1.0f);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glDrawArrays(GL_TRIANGLES, 0, m_uVertexCount);  
+
+	//Wire
+	glUniform3f(wire, 1.0f, 0.0f, 1.0f);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glDrawArrays(GL_TRIANGLES, 0, m_uVertexCount);
-	
-	glBindVertexArray(0);// Unbind VAO
+
+	glBindVertexArray(0);// Unbind VAO so it does not get in the way of other objects
+}
+
+
+void MyMesh::AddTri(vector3 a_vBottomLeft, vector3 a_vBottomRight, vector3 a_vTopLeft)
+{
+	//C
+	//| \
+	//A--B
+	//This will make the triang A->B->C 
+	AddVertexPosition(a_vBottomLeft);
+	AddVertexPosition(a_vBottomRight);
+	AddVertexPosition(a_vTopLeft);
+}
+
+void MyMesh::AddQuad(vector3 a_vBottomLeft, vector3 a_vBottomRight, vector3 a_vTopLeft, vector3 a_vTopRight)
+{
+	//C--D
+	//|  |
+	//A--B
+	//This will make the triang A->B->C and then the triang C->B->D
+	AddVertexPosition(a_vBottomLeft);
+	AddVertexPosition(a_vBottomRight);
+	AddVertexPosition(a_vTopLeft);
+
+	AddVertexPosition(a_vTopLeft);
+	AddVertexPosition(a_vBottomRight);
+	AddVertexPosition(a_vTopRight);
+}
+
+void MyMesh::GenerateCube(float a_fSize, vector3 a_v3Color)
+{
+	if (a_fSize < 0.01f)
+		a_fSize = 0.01f;
+
+	Release();
+	Init();
+
+	float fValue = a_fSize * 0.5f;
+	//3--2
+	//|  |
+	//0--1
+
+	vector3 point0(-fValue,-fValue, fValue); //0
+	vector3 point1( fValue,-fValue, fValue); //1
+	vector3 point2( fValue, fValue, fValue); //2
+	vector3 point3(-fValue, fValue, fValue); //3
+
+	vector3 point4(-fValue,-fValue,-fValue); //4
+	vector3 point5( fValue,-fValue,-fValue); //5
+	vector3 point6( fValue, fValue,-fValue); //6
+	vector3 point7(-fValue, fValue,-fValue); //7
+
+	//F
+	AddQuad(point0, point1, point3, point2);
+
+	//B
+	AddQuad(point5, point4, point6, point7);
+
+	//L
+	AddQuad(point4, point0, point7, point3);
+
+	//R
+	AddQuad(point1, point5, point2, point6);
+
+	//U
+	AddQuad(point3, point2, point7, point6);
+
+	//D
+	AddQuad(point4, point5, point0, point1);
+
+	CompleteMesh(a_v3Color);
+	CompileOpenGL3X();
 }
