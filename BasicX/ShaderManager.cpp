@@ -9,6 +9,9 @@ void ShaderManager::Init(void)
 
 	//Compile Color shader
 	Folder* pFolder = Folder::GetInstance();
+
+	//Compile Color shader
+	CompileShader(pFolder->GetFolderShaders() + "Basic.vs", pFolder->GetFolderShaders() + "Basic.fs", "Basic");
 	
 	//Compile Text shader
 	CompileShader(pFolder->GetFolderShaders() + "TextShader.vs", pFolder->GetFolderShaders() + "TextShader.fs", "Text");

@@ -6,6 +6,7 @@ void Application::InitVariables(void)
 
 	//Make MyMesh object
 	m_pMesh = new MyMesh();
+	m_pMesh->GenerateCube(1.0f, vector3(1.0f, 0.0f, 0.0f));
 }
 void Application::Update(void)
 {
@@ -22,6 +23,8 @@ void Application::Display(void)
 {
 	// Clear the screen
 	ClearScreen();
+
+	m_pMesh->Render(m_pCameraMngr->GetProjectionMatrix(), m_pCameraMngr->GetViewMatrix(), ToMatrix4(m_qArcBall));
 	
 	// draw a skybox
 	m_pMeshMngr->AddSkyboxToRenderList();

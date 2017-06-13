@@ -11,8 +11,6 @@ Date: 2017/05
 #include "SFML\Graphics.hpp"
 #include "SFML\OpenGL.hpp"
 
-using namespace BasicX;
-
 enum ControllerKey_
 {
 	SimplexKey_A =		0,

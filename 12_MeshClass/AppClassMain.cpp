@@ -34,7 +34,7 @@ Application::~Application(void)
 	ReleaseControllers();
 
 	// Release the Simplex singletons
-	BasicX::ReleaseAllSingletons();
+	ReleaseAllSingletons();
 	SafeDelete(m_pWindow);
 }
 void Application::InitControllers(void)
