@@ -5,7 +5,7 @@ Date: 2015/10
 #ifndef __TEXTSINGLETON_H_
 #define __TEXTSINGLETON_H_
 
-#include "Simplex\System\SimplexSystem.h"
+#include "Simplex\System\SystemSingleton.h"
 #include "Simplex\System\ShaderManager.h"
 #include "Simplex\Materials\MaterialManager.h"
 

@@ -31,7 +31,7 @@
     <ClInclude Include="..\include\BasicX\System\Shader.h" />
     <ClInclude Include="..\include\BasicX\System\ShaderCompiler.h" />
     <ClInclude Include="..\include\BasicX\System\ShaderManager.h" />
-    <ClInclude Include="..\include\BasicX\System\BasicXSystem.h" />
+    <ClInclude Include="..\include\BasicX\System\SystemSingleton.h" />
     <ClInclude Include="..\include\BasicX\System\Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -75,7 +75,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderCompiler.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
-    <ClCompile Include="BasicXSystem.cpp" />
+    <ClCompile Include="SystemSingleton.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />

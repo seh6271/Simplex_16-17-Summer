@@ -5,7 +5,7 @@ Date: 2015/06
 #ifndef __MESHDRAWERSINGLETON_H_
 #define __MESHDRAWERSINGLETON_H_
 
-#include "Simplex\System\SimplexSystem.h"
+#include "Simplex\System\SystemSingleton.h"
 #include "Simplex\Mesh\MeshClass.h"
 #include "Simplex\Light\LightManager.h"
 #include "Simplex\Camera\CameraManager.h"

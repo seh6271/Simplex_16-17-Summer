@@ -111,7 +111,7 @@
     <ClInclude Include="..\include\BasicX\System\Window.h">
       <Filter>Header Files\System</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\BasicX\System\BasicXSystem.h">
+    <ClInclude Include="..\include\BasicX\System\SystemSingleton.h">
       <Filter>Header Files\System</Filter>
     </ClInclude>
   </ItemGroup>
@@ -187,9 +187,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BasicXApplication.cpp">
-      <Filter>Source Files\System</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Camera</Filter>
     </ClCompile>
@@ -244,8 +241,11 @@
     <ClCompile Include="Window.cpp">
       <Filter>Source Files\System</Filter>
     </ClCompile>
-    <ClCompile Include="BasicXSystem.cpp">
+    <ClCompile Include="SystemSingleton.cpp">
       <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicXApplication.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

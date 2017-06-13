@@ -5,7 +5,7 @@ Date: 2017/05
 #ifndef __MESHSIMPLEX_H_
 #define __MESHSIMPLEX_H_
 
-#include "Simplex\System\SimplexSystem.h"
+#include "Simplex\System\SystemSingleton.h"
 #include "Simplex\System\ShaderManager.h"
 #include "Simplex\Materials\MaterialManager.h"
 #include "Simplex\light\LightManager.h"

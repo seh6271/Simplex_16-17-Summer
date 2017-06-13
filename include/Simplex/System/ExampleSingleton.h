@@ -5,7 +5,7 @@ Date: 2015/06
 #ifndef __ExampleSingleton_H_
 #define __ExampleSingleton_H_
 
-#include "Simplex\System\SimplexSystem.h"
+#include "Simplex\System\SystemSingleton.h"
 
 namespace Simplex
 {

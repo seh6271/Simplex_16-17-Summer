@@ -8,7 +8,7 @@ Date: 2017/04
 #pragma warning( disable : 4251 )
 
 #include "Simplex\system\Definitions.h" //ReEng basic Definitions
-#include "Simplex\System\SimplexSystem.h" //System related methods
+#include "Simplex\System\SystemSingleton.h" //System related methods
 
 #include "Simplex\system\Window.h" //WinAPI encapsulated methods
 #include "Simplex\system\FileReader.h" //Reads an object and returns lines as strings

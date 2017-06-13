@@ -5,7 +5,7 @@ Date: 2017/05
 #ifndef __MESHBASICX_H_
 #define __MESHBASICX_H_
 
-#include "BasicX\System\BasicXSystem.h"
+#include "BasicX\System\SystemSingleton.h"
 #include "BasicX\System\ShaderManager.h"
 #include "BasicX\Materials\MaterialManager.h"
 #include "BasicX\Light\LightManager.h"
