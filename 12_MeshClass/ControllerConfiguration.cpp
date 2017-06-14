@@ -1,16 +1,16 @@
 #include "ControllerConfiguration.h"
 ControllerInput::ControllerInput(ControllerInput const& other) {};
 ControllerInput& ControllerInput::operator=(ControllerInput const& input) { return *this; };
-ControllerInput::ControllerInput(uint nVendorID, uint nProductID)
+ControllerInput::ControllerInput(unsigned int nVendorID, unsigned int nProductID)
 {
 	uModel = SimplexController_NONE;
 	
-	for (uint i = 0; i < 15; ++i)
+	for (unsigned int i = 0; i < 15; ++i)
 	{
 		button[i] = false;
 		mapButton[i] = i;
 	}
-	for (uint i = 0; i < 8; ++i)
+	for (unsigned int i = 0; i < 8; ++i)
 	{
 		axis[i] = 0.0f;
 		mapAxis[i] = i;

@@ -27,10 +27,16 @@ void Application::DrawGUI(void)
 		String sAbout = m_pSystem->GetAppName() + " - About";
 		ImGui::Begin(sAbout.c_str(), (bool*)0, window_flags);
 		{
-			ImGui::TextColored(v4Color, "Programmer: \n"); 
+			ImGui::Text("Programmer: \n");
 			ImGui::TextColored(v4Color, m_sProgrammer.c_str());
-			ImGui::Text("FrameRate: %.2f [FPS] -> %.3f [ms/frame] ",
+			ImGui::Text("FrameRate: %.2f [FPS] -> %.3f [ms/frame]\n",
 				ImGui::GetIO().Framerate, 1000.0f / ImGui::GetIO().Framerate);
+			ImGui::Text("Control:\n");
+			ImGui::Text("   WASD: Movement\n");
+			ImGui::Text("	 F1: Perspective\n");
+			ImGui::Text("	 F2: Orthographic X\n");
+			ImGui::Text("	 F3: Orthographic Y\n");
+			ImGui::Text("	 F4: Orthographic Z\n");
 		}
 		ImGui::End();
 	}

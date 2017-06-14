@@ -5,13 +5,10 @@ Date: 2017/05
 #ifndef __CONTROLLERCONFIG_H_
 #define __CONTROLLERCONFIG_H_
 
-#include "Simplex\Simplex.h"
-
 #include "SFML\Window.hpp"
 #include "SFML\Graphics.hpp"
 #include "SFML\OpenGL.hpp"
 
-using namespace Simplex;
 enum ControllerKey_
 {
 	SimplexKey_A = 0,
@@ -83,14 +80,14 @@ enum Vendor_
 };
 struct ControllerInput
 {
-	uint uModel = 1000;
+	unsigned int uModel = 1000;
 
 	bool button[15];
 	int mapButton[15];
 	int mapAxis[8];
 	float axis[8];
 	
-	ControllerInput(uint nVendorID = 0, uint nProductID = 0);
+	ControllerInput(unsigned int nVendorID = 0, unsigned int nProductID = 0);
 
 private:
 	ControllerInput(ControllerInput const& other);
