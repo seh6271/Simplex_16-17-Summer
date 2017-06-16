@@ -4,16 +4,12 @@ void Application::DrawGUI(void)
 {
 #pragma region Debugging Information
 	//Print info on the screen
-	uint nEmptyLines = 21;
+	uint nEmptyLines = 20;
 	for (uint i = 0; i < nEmptyLines; ++i)
 		m_pMeshMngr->PrintLine("");//Add a line on top
 	//m_pMeshMngr->Print("						");
 	m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), C_YELLOW);
 	
-	//m_pMeshMngr->Print("						");
-	m_pMeshMngr->Print("RenderCalls: ");//Add a line on top
-	m_pMeshMngr->PrintLine(std::to_string(m_uRenderCallCount), C_YELLOW);
-
 	//m_pMeshMngr->Print("						");
 	m_pMeshMngr->Print("FPS:");
 	m_pMeshMngr->Print(std::to_string(m_pSystem->GetFPS()), C_RED);
@@ -329,6 +325,7 @@ void Application::NewFrame()
 	float fDelta = m_pSystem->GetDeltaTime(gui.m_nClock);
 	io.DeltaTime = fDelta;
 	gui.m_dTimeTotal += fDelta;
+
 	
 	// Start the frame
 	ImGui::NewFrame();
