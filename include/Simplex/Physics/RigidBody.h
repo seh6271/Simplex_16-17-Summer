@@ -37,6 +37,7 @@ enum eSATResults
 //System Class
 class SimplexDLL RigidBody
 {
+	typedef RigidBody* PRigidBody; //Entity Pointer
 	MeshManager* m_pMeshMngr = nullptr; //for displaying the Rigid Body
 
 	bool m_bVisibleBS = false; //Visibility of bounding sphere
@@ -48,7 +49,9 @@ class SimplexDLL RigidBody
 	vector3 m_v3ColorColliding = C_RED; //Color when colliding
 	vector3 m_v3ColorNotColliding = C_WHITE; //Color when not colliding
 
-	vector3 m_v3Center = ZERO_V3; //center point in local space
+	vector3 m_v3CenterL = ZERO_V3; //center point in local space
+	vector3 m_v3CenterG = ZERO_V3; //center point in global space
+
 	vector3 m_v3MinL = ZERO_V3; //minimum coordinate in local space (for OBB)
 	vector3 m_v3MaxL = ZERO_V3; //maximum coordinate in local space (for OBB)
 
@@ -60,7 +63,8 @@ class SimplexDLL RigidBody
 
 	matrix4 m_m4ToWorld = IDENTITY_M4; //Matrix that will take us from local to world coordinate
 
-	std::set<RigidBody*> m_CollidingRBSet; //set of rigid bodies this one is colliding with
+	uint m_nCollidingCount = 0; //size of the colliding set
+	PRigidBody* m_CollidingArray = nullptr; //array of rigid bodies this one is colliding with
 
 public:
 	/*
@@ -220,7 +224,7 @@ public:
 	*/
 	vector3 GetCenterGlobal(void);
 	/*
-	Usage: Gets minimum vector in local space
+	Usage: Gets minimum vector in global space
 	Arguments: ---
 	Output: min vector
 	*/
@@ -250,6 +254,12 @@ public:
 	*/
 	void SetModelMatrix(matrix4 a_m4ModelMatrix);
 #pragma endregion
+	/*
+	USAGE: Checks if the input is in the colliding array
+	ARGUMENTS: RigidBody* a_pEntry -> Entry queried
+	OUTPUT: is it in the array?
+	*/
+	bool IsInCollidingArray(RigidBody* a_pEntry);
 	
 private:
 	/*
