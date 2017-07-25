@@ -27,7 +27,7 @@ void Application::InitVariables(void)
 			vector3 v3Position = vector3(glm::sphericalRand(34.0f));
 			matrix4 m4Position = glm::translate(v3Position);
 			m_pEntityMngr->SetModelMatrix(m4Position);
-			//m_pEntityMngr->UsePhysicsSolver(); //Apply physics to the objects
+			m_pEntityMngr->UsePhysicsSolver(m_bUsingPhysics); //Apply physics to the objects
 		}
 	}
 	m_uOctantLevels = 1;
@@ -45,18 +45,19 @@ void Application::Update(void)
 	//Is the first person camera active?
 	CameraRotation();
 
-	/*
 	//Reconstructing the Octree each half a second
-	static uint nClock = m_pSystem->GenClock();
-	static bool bStarted = false;
-	if(m_pSystem->IsTimerDone(nClock) || !bStarted)
+	if (m_bUsingPhysics)
 	{
-		bStarted = true;
-		m_pSystem->StartTimerOnClock(0.5, nClock);
-		SafeDelete(m_pRoot);
-		m_pRoot = new Octant(m_uOctantLevels, 5);
+		static uint nClock = m_pSystem->GenClock();
+		static bool bStarted = false;
+		if (m_pSystem->IsTimerDone(nClock) || !bStarted)
+		{
+			bStarted = true;
+			m_pSystem->StartTimerOnClock(0.5, nClock);
+			SafeDelete(m_pRoot);
+			m_pRoot = new Octant(m_uOctantLevels, 5);
+		}
 	}
-	*/
 	//Update Entity Manager
 	m_pEntityMngr->Update();
 

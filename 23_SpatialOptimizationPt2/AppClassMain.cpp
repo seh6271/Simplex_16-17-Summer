@@ -208,6 +208,8 @@ void Application::Init(String a_sApplicationName, uint a_uWidth, uint a_uHeight,
 
 	m_bRunning = false;
 
+	m_bUsingPhysics = false;
+
 	//Init System
 	m_pSystem = SystemSingleton::GetInstance();
 
@@ -370,6 +372,12 @@ void Application::ReadConfig(void)
 			sscanf_s(reader.m_sLine.c_str(), "Background: [%f,%f,%f,%f]", &fValueX, &fValueY, &fValueZ, &fValueW);
 			m_v4ClearColor = vector4(fValueX, fValueY, fValueZ, fValueW);
 		}
+		else if (sWord == "Physics:")
+		{
+			int nValue;
+			sscanf_s(reader.m_sLine.c_str(), "Physics: %d", &nValue);
+			m_bUsingPhysics = (nValue != 0);
+		}
 		else if (sWord == "AmbientPower:")
 		{
 			float fValue;
@@ -450,13 +458,21 @@ void Application::WriteConfig(void)
 	fprintf(pFile, "\n# Resolution: [ 1920 x 1080 ]");
 	fprintf(pFile, "\n# Resolution: [ 2560 x 1080 ]");
 	
-
 	fprintf(pFile, "\n\nAmbient: [%.2f,%.2f,%.2f]",
 		m_pLightMngr->GetColor(0).r, m_pLightMngr->GetColor(0).g, m_pLightMngr->GetColor(0).b);
 	fprintf(pFile, "\nAmbientPower: %.2f", m_pLightMngr->GetIntensity(0));
 
 	fprintf(pFile, "\n\nBackground: [%.3f,%.3f,%.3f,%.3f]",
 		m_v4ClearColor.r, m_v4ClearColor.g, m_v4ClearColor.b, m_v4ClearColor.a);
+
+	if (m_bUsingPhysics)
+	{
+		fprintf(pFile, "\n\nPhysics: 1");
+	}
+	else
+	{
+		fprintf(pFile, "\n\nPhysics: 0");
+	}
 
 	fprintf(pFile, "\n\n# Folders:");
 	fprintf(pFile, "\nData:		%s", m_pSystem->m_pFolder->GetFolderData().c_str());
