@@ -4,8 +4,8 @@ void Application::InitVariables(void)
 {
 	//Set the position and target of the camera
 	m_pCameraMngr->SetPositionTargetAndUp(
-		vector3(0.0f, 0.0f, 100.0f), //Position
-		vector3(0.0f, 0.0f, 99.0f),	//Target
+		vector3(0.0f, 50.0f, 140.0f), //Position
+		vector3(0.0f, 0.0f, 0.0f),	//Target
 		AXIS_Y);					//Up
 
 	m_pLightMngr->SetPosition(vector3(0.0f, 3.0f, 13.0f), 1); //set the position of first light (0 is reserved for ambient light)
@@ -27,6 +27,7 @@ void Application::InitVariables(void)
 			vector3 v3Position = vector3(glm::sphericalRand(34.0f));
 			matrix4 m4Position = glm::translate(v3Position);
 			m_pEntityMngr->SetModelMatrix(m4Position);
+			//m_pEntityMngr->UsePhysicsSolver(); //Apply physics to the objects
 		}
 	}
 	m_uOctantLevels = 1;
@@ -43,7 +44,19 @@ void Application::Update(void)
 
 	//Is the first person camera active?
 	CameraRotation();
-	
+
+	/*
+	//Reconstructing the Octree each half a second
+	static uint nClock = m_pSystem->GenClock();
+	static bool bStarted = false;
+	if(m_pSystem->IsTimerDone(nClock) || !bStarted)
+	{
+		bStarted = true;
+		m_pSystem->StartTimerOnClock(0.5, nClock);
+		SafeDelete(m_pRoot);
+		m_pRoot = new Octant(m_uOctantLevels, 5);
+	}
+	*/
 	//Update Entity Manager
 	m_pEntityMngr->Update();
 
